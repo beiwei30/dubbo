@@ -755,7 +755,7 @@ public class RpcContext {
         return currentContext.asyncContext;
     }
 
-    protected void setAsyncContext(AsyncContext asyncContext) {
+    public void setAsyncContext(AsyncContext asyncContext) {
         this.asyncContext = asyncContext;
     }
 
