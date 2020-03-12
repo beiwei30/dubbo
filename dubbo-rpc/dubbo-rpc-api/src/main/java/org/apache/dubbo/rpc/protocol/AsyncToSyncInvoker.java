@@ -67,10 +67,13 @@ public class AsyncToSyncInvoker<T> implements Invoker<T> {
             Throwable t = e.getCause();
             if (t instanceof TimeoutException) {
                 throw new RpcException(RpcException.TIMEOUT_EXCEPTION, "Invoke remote method timeout. method: " +
-                        invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + e.getMessage(), e);
+                        invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + t.getMessage(), t);
             } else if (t instanceof RemotingException) {
                 throw new RpcException(RpcException.NETWORK_EXCEPTION, "Failed to invoke remote method: " +
-                        invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + e.getMessage(), e);
+                        invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + t.getMessage(), t);
+            } else if (t != null) {
+                throw new RpcException(RpcException.UNKNOWN_EXCEPTION, "Fail to invoke remote method: " +
+                        invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + t.getMessage(), t);
             } else {
                 throw new RpcException(RpcException.UNKNOWN_EXCEPTION, "Fail to invoke remote method: " +
                         invocation.getMethodName() + ", provider: " + getUrl() + ", cause: " + e.getMessage(), e);
